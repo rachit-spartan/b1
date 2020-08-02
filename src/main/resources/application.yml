@@ -1,0 +1,18 @@
+base.url: http://localhost:8080
+service.name: electronicstore
+spring:
+  flyway:
+    enabled: false
+  redis.host: localhost
+  redis.port: 6379
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    properties.hibernate.temp.use_jdbc_metadata_defaults: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate.ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://localhost:5432/electronic-store
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
