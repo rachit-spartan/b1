@@ -5,9 +5,9 @@ import org.springframework.mock.web.MockHttpSession
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
 
-abstract class AbstractSessionTest {
-    protected var session: MockHttpSession? = null
-    protected var request: MockHttpServletRequest? = null
+abstract class AbstractSessionProvider {
+    private var session: MockHttpSession? = null
+    private var request: MockHttpServletRequest? = null
     protected fun startSession() {
         session = MockHttpSession()
     }

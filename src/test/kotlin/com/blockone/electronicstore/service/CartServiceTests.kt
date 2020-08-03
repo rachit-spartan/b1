@@ -4,7 +4,7 @@ import com.blockone.electronicstore.db.model.BundleDeal
 import com.blockone.electronicstore.db.model.DiscountDeal
 import com.blockone.electronicstore.db.model.Product
 import com.blockone.electronicstore.repository.ProductRepository
-import com.blockone.electronicstore.service.AbstractSessionTest
+import com.blockone.electronicstore.service.AbstractSessionProvider
 import com.blockone.electronicstore.service.CartItem
 import com.blockone.electronicstore.service.CartService
 import com.nhaarman.mockitokotlin2.mock
@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 import java.util.*
 
-class CartServiceTests : AbstractSessionTest() {
+class CartServiceTests : AbstractSessionProvider() {
 
     private lateinit var cartService: CartService
     private val productRepositoryMock: ProductRepository = mock()
