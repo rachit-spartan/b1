@@ -76,10 +76,13 @@ class CartServiceTests : AbstractSessionTest() {
 
         @Test
         fun `When no bundled product in cart and a main product is added`() {
+            // Arrange
             startSession()
             startRequest()
             cartService.addProductToCart(mainProductId, 1)
             endRequest()
+
+            // Act & Assert
             val cart = cartService.getCart()
             assertThat(cart.size).isEqualTo(2)
             assertThat(cart[mainProductId]).isEqualTo(
@@ -107,6 +110,7 @@ class CartServiceTests : AbstractSessionTest() {
 
         @Test
         fun `When one bundled product in cart and one main product is added`() {
+            // Arrange
             startSession()
             startRequest()
             cartService.addProductToCart(bundledProductId, 1)
@@ -114,6 +118,8 @@ class CartServiceTests : AbstractSessionTest() {
             startRequest()
             cartService.addProductToCart(mainProductId, 1)
             endRequest()
+
+            // Act & Assert
             val cart = cartService.getCart()
             assertThat(cart.size).isEqualTo(2)
             assertThat(cart[mainProductId]).isEqualTo(
@@ -140,7 +146,8 @@ class CartServiceTests : AbstractSessionTest() {
         }
 
         @Test
-        fun `When 3 bundled product in cart and 5 main product is added`() {
+        fun `When 3 bundled product in cart and 5 main products are added`() {
+            // Arrange
             startSession()
             startRequest()
             cartService.addProductToCart(bundledProductId, 3)
@@ -148,6 +155,8 @@ class CartServiceTests : AbstractSessionTest() {
             startRequest()
             cartService.addProductToCart(mainProductId, 5)
             endRequest()
+
+            // Act & Assert
             val cart = cartService.getCart()
             assertThat(cart.size).isEqualTo(2)
             assertThat(cart[mainProductId]).isEqualTo(
@@ -174,7 +183,8 @@ class CartServiceTests : AbstractSessionTest() {
         }
 
         @Test
-        fun `When 5 bundled product in cart and 3 main product is added`() {
+        fun `When 5 bundled product in cart and 3 main products are added`() {
+            // Arrange
             startSession()
             startRequest()
             cartService.addProductToCart(bundledProductId, 5)
@@ -182,6 +192,8 @@ class CartServiceTests : AbstractSessionTest() {
             startRequest()
             cartService.addProductToCart(mainProductId, 3)
             endRequest()
+
+            // Act & Assert
             val cart = cartService.getCart()
             assertThat(cart.size).isEqualTo(2)
             assertThat(cart[mainProductId]).isEqualTo(
@@ -208,7 +220,8 @@ class CartServiceTests : AbstractSessionTest() {
         }
 
         @Test
-        fun `When 10 bundled product in cart (3 N and 7 B) and 8 main product is added`() {
+        fun `When 10 bundled product in cart (3 paid & 7 free) & quantity of main products are changed to 8`() {
+            // Arrange
             startSession()
             startRequest()
             cartService.addProductToCart(bundledProductId, 10)
@@ -219,6 +232,8 @@ class CartServiceTests : AbstractSessionTest() {
             startRequest()
             cartService.addProductToCart(mainProductId, 8)
             endRequest()
+
+            // Act & Assert
             val cart = cartService.getCart()
             assertThat(cart.size).isEqualTo(2)
             assertThat(cart[mainProductId]).isEqualTo(
@@ -245,7 +260,8 @@ class CartServiceTests : AbstractSessionTest() {
         }
 
         @Test
-        fun `When 10 bundled product in cart (3 N and 7 B) and 15 main product is added`() {
+        fun `When 10 bundled product in cart (3 paid & 7 free) & quantity of main products is changed to 15`() {
+            // Arrange
             startSession()
             startRequest()
             cartService.addProductToCart(bundledProductId, 10)
@@ -256,6 +272,8 @@ class CartServiceTests : AbstractSessionTest() {
             startRequest()
             cartService.addProductToCart(mainProductId, 15)
             endRequest()
+
+            // Act & Assert
             val cart = cartService.getCart()
             assertThat(cart.size).isEqualTo(2)
             assertThat(cart[mainProductId]).isEqualTo(
@@ -294,10 +312,13 @@ class CartServiceTests : AbstractSessionTest() {
 
         @Test
         fun `When no discounted product in cart and a main product is added`() {
+            // Arrange
             startSession()
             startRequest()
             cartService.addProductToCart(mainProductId, 1)
             endRequest()
+
+            // Act & Assert
             val cart = cartService.getCart()
             assertThat(cart.size).isEqualTo(1)
             assertThat(cart[mainProductId]).isEqualTo(
@@ -316,6 +337,7 @@ class CartServiceTests : AbstractSessionTest() {
 
         @Test
         fun `When one discounted product in cart and one main product is added`() {
+            // Arrange
             startSession()
             startRequest()
             cartService.addProductToCart(discountedProductId, 1)
@@ -323,6 +345,8 @@ class CartServiceTests : AbstractSessionTest() {
             startRequest()
             cartService.addProductToCart(mainProductId, 1)
             endRequest()
+
+            // Act & Assert
             val cart = cartService.getCart()
             assertThat(cart.size).isEqualTo(2)
             assertThat(cart[mainProductId]).isEqualTo(
@@ -349,7 +373,8 @@ class CartServiceTests : AbstractSessionTest() {
         }
 
         @Test
-        fun `When 3 discounted product in cart and 5 main product is added`() {
+        fun `When 3 discounted product in cart and 5 main products are added`() {
+            // Arrange
             startSession()
             startRequest()
             cartService.addProductToCart(discountedProductId, 3)
@@ -357,6 +382,8 @@ class CartServiceTests : AbstractSessionTest() {
             startRequest()
             cartService.addProductToCart(mainProductId, 5)
             endRequest()
+
+            // Act & Assert
             val cart = cartService.getCart()
             assertThat(cart.size).isEqualTo(2)
             assertThat(cart[mainProductId]).isEqualTo(
@@ -383,7 +410,8 @@ class CartServiceTests : AbstractSessionTest() {
         }
 
         @Test
-        fun `When 5 discounted product in cart and 3 main product is added`() {
+        fun `When 5 discounted product in cart and 3 main products are added`() {
+            // Arrange
             startSession()
             startRequest()
             cartService.addProductToCart(discountedProductId, 5)
@@ -391,6 +419,8 @@ class CartServiceTests : AbstractSessionTest() {
             startRequest()
             cartService.addProductToCart(mainProductId, 3)
             endRequest()
+
+            // Act & Assert
             val cart = cartService.getCart()
             assertThat(cart.size).isEqualTo(2)
             assertThat(cart[mainProductId]).isEqualTo(
@@ -417,81 +447,8 @@ class CartServiceTests : AbstractSessionTest() {
         }
 
         @Test
-        fun `When 10 discounted product in cart (3 N and 7 B) and 8 main product is added`() {
-            startSession()
-            startRequest()
-            cartService.addProductToCart(discountedProductId, 10)
-            endRequest()
-            startRequest()
-            cartService.addProductToCart(mainProductId, 7)
-            endRequest()
-            startRequest()
-            cartService.addProductToCart(mainProductId, 8)
-            endRequest()
-            val cart = cartService.getCart()
-            assertThat(cart.size).isEqualTo(2)
-            assertThat(cart[mainProductId]).isEqualTo(
-                CartItem(
-                    productId = mainProductId,
-                    discountedQuantity = 0,
-                    normalQuantity = 8,
-                    bundledQuantity = 0,
-                    totalPrice = BigDecimal(800).setScale(2),
-                    normalPricePerItem = BigDecimal(100).setScale(2)
-                )
-            )
-            assertThat(cart[discountedProductId]).isEqualTo(
-                CartItem(
-                    productId = discountedProductId,
-                    discountedQuantity = 8,
-                    normalQuantity = 2,
-                    bundledQuantity = 0,
-                    totalPrice = BigDecimal(46).setScale(3),
-                    normalPricePerItem = BigDecimal(5).setScale(2)
-                )
-            )
-            endSession()
-        }
-
-        @Test
-        fun `When 10 discounted product in cart (3 N and 7 B) and 15 main product is added`() {
-            startSession()
-            startRequest()
-            cartService.addProductToCart(discountedProductId, 10)
-            endRequest()
-            startRequest()
-            cartService.addProductToCart(mainProductId, 7)
-            endRequest()
-            startRequest()
-            cartService.addProductToCart(mainProductId, 15)
-            endRequest()
-            val cart = cartService.getCart()
-            assertThat(cart.size).isEqualTo(2)
-            assertThat(cart[mainProductId]).isEqualTo(
-                CartItem(
-                    productId = mainProductId,
-                    discountedQuantity = 0,
-                    normalQuantity = 15,
-                    bundledQuantity = 0,
-                    totalPrice = BigDecimal(1500).setScale(2),
-                    normalPricePerItem = BigDecimal(100).setScale(2)
-                )
-            )
-            assertThat(cart[discountedProductId]).isEqualTo(
-                CartItem(
-                    productId = discountedProductId,
-                    discountedQuantity = 10,
-                    normalQuantity = 0,
-                    bundledQuantity = 0,
-                    totalPrice = BigDecimal(45).setScale(3),
-                    normalPricePerItem = BigDecimal(5).setScale(2)
-                )
-            )
-            endSession()
-        }
-
-        @Test
-        fun `When 5 main product in cart and 3 discounted product is added`() {
+        fun `When 5 main product in cart and 3 discounted products are added`() {
+            // Arrange
             startSession()
             startRequest()
             cartService.addProductToCart(mainProductId, 5)
@@ -499,6 +456,8 @@ class CartServiceTests : AbstractSessionTest() {
             startRequest()
             cartService.addProductToCart(discountedProductId, 3)
             endRequest()
+
+            // Act & Assert
             val cart = cartService.getCart()
             assertThat(cart.size).isEqualTo(2)
             assertThat(cart[mainProductId]).isEqualTo(
@@ -525,7 +484,8 @@ class CartServiceTests : AbstractSessionTest() {
         }
 
         @Test
-        fun `When 3 main product in cart and 5 discounted product is added`() {
+        fun `When 3 main product in cart and 5 discounted products are added`() {
+            // Arrange
             startSession()
             startRequest()
             cartService.addProductToCart(mainProductId, 3)
@@ -533,6 +493,8 @@ class CartServiceTests : AbstractSessionTest() {
             startRequest()
             cartService.addProductToCart(discountedProductId, 5)
             endRequest()
+
+            // Act & Assert
             val cart = cartService.getCart()
             assertThat(cart.size).isEqualTo(2)
             assertThat(cart[mainProductId]).isEqualTo(

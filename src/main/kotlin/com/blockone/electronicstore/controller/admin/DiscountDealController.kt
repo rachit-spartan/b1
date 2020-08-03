@@ -2,7 +2,6 @@ package com.blockone.electronicstore.controller.admin
 
 import com.blockone.electronicstore.db.model.DiscountDeal
 import com.blockone.electronicstore.service.DiscountDealService
-import com.blockone.electronicstore.service.ProductService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
@@ -16,7 +15,6 @@ import java.util.*
 @RestController
 @RequestMapping(path = ["/admin/v1"])
 class DiscountDealController(
-    private val productService: ProductService,
     private val discountDealService: DiscountDealService
 ) {
     private val log: Logger = LoggerFactory.getLogger(DiscountDealController::class.java)

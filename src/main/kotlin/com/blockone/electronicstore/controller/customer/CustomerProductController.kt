@@ -10,10 +10,10 @@ import java.util.*
 
 @RestController
 @RequestMapping(path = ["/api/v1"])
-class ProductCustomerController(
+class CustomerProductController(
     private val productService: ProductService
 ) {
-    private val log: Logger = LoggerFactory.getLogger(ProductCustomerController::class.java)
+    private val log: Logger = LoggerFactory.getLogger(CustomerProductController::class.java)
 
     @GetMapping("/products")
     fun getAllProducts(): ResponseEntity<List<Product>?> {

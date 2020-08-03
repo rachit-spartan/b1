@@ -12,8 +12,6 @@ import java.util.*
 import kotlin.collections.HashMap
 import kotlin.math.min
 
-// @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
-// @Transactional
 @Service
 class CartService(
     private val productRepository: ProductRepository

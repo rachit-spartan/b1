@@ -36,13 +36,3 @@ data class AddProductToCartRequest(
     val productId: UUID,
     val quantity: Int?
 )
-
-// TODO
-/*
-3. Refactor
-4. check the namings and api paths
-
-2. Decison why used Session bean stateful vs HttpSession
-8. assumption: the final quantity is the right quantoity  i,e, quantity is not added to the existing quantiy foir a cart but overides it
-9. Limitations: If a product y is bundled with x, then it cant be bundled with z
-* */

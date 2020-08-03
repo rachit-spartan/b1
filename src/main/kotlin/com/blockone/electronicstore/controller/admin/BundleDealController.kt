@@ -2,7 +2,6 @@ package com.blockone.electronicstore.controller.admin
 
 import com.blockone.electronicstore.db.model.BundleDeal
 import com.blockone.electronicstore.service.BundleDealService
-import com.blockone.electronicstore.service.ProductService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
@@ -15,7 +14,6 @@ import java.util.*
 @RestController
 @RequestMapping(path = ["/admin/v1"])
 class BundleDealController(
-    private val productService: ProductService,
     private val bundleDealService: BundleDealService
 ) {
     private val log: Logger = LoggerFactory.getLogger(BundleDealController::class.java)

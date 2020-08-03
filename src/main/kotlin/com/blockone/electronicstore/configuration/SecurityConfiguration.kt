@@ -21,7 +21,6 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
     @Autowired
     @Throws(Exception::class)
     fun configureGlobal(auth: AuthenticationManagerBuilder) {
-        log.info("Trying to authenticate...$auth")
         auth
             .inMemoryAuthentication()
             .withUser("user")
