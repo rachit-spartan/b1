@@ -1,8 +1,5 @@
 package com.blockone.electronicstore.service.sst
 
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.http.MediaType
@@ -13,10 +10,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import java.util.*
 
 class AdminAddUpdateDeleteProduct : SingleServiceTestBase() {
-
-    private val objectMapper: ObjectMapper = jacksonObjectMapper().apply {
-        configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-    }
 
     @Test
     @WithMockUser(username = "user", password = "user", roles = ["ADMIN"])

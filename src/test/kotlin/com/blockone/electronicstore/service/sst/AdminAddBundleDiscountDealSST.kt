@@ -1,8 +1,5 @@
 package com.blockone.electronicstore.service.sst
 
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.http.MediaType
@@ -14,9 +11,6 @@ import java.util.*
 
 class AdminAddBundleDiscountDeal : SingleServiceTestBase() {
 
-    private val objectMapper: ObjectMapper = jacksonObjectMapper().apply {
-        configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-    }
     private val mainProductId = UUID.randomUUID()
     private val bundledProductId = UUID.randomUUID()
     private val mainProductId2 = UUID.randomUUID()

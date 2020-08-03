@@ -3,6 +3,9 @@ package com.blockone.electronicstore.service.sst
 import com.blockone.electronicstore.repository.BundleDealRepository
 import com.blockone.electronicstore.repository.DiscountDealRepository
 import com.blockone.electronicstore.repository.ProductRepository
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.nhaarman.mockitokotlin2.reset
 import io.zonky.test.db.AutoConfigureEmbeddedDatabase
 import org.junit.jupiter.api.BeforeEach
@@ -37,6 +40,10 @@ abstract class SingleServiceTestBase {
 
     @Autowired
     protected lateinit var discountDealRepository: DiscountDealRepository
+
+    protected val objectMapper: ObjectMapper = jacksonObjectMapper().apply {
+        configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+    }
 
     @BeforeEach
     fun setup() {

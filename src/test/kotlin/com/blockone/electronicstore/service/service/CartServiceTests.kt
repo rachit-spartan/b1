@@ -79,7 +79,7 @@ class CartServiceTests : AbstractSessionTest() {
             // Arrange
             startSession()
             startRequest()
-            cartService.addProductToCart(mainProductId, 1)
+            cartService.updateCart(mainProductId, 1)
             endRequest()
 
             // Act & Assert
@@ -113,10 +113,10 @@ class CartServiceTests : AbstractSessionTest() {
             // Arrange
             startSession()
             startRequest()
-            cartService.addProductToCart(bundledProductId, 1)
+            cartService.updateCart(bundledProductId, 1)
             endRequest()
             startRequest()
-            cartService.addProductToCart(mainProductId, 1)
+            cartService.updateCart(mainProductId, 1)
             endRequest()
 
             // Act & Assert
@@ -150,10 +150,10 @@ class CartServiceTests : AbstractSessionTest() {
             // Arrange
             startSession()
             startRequest()
-            cartService.addProductToCart(bundledProductId, 3)
+            cartService.updateCart(bundledProductId, 3)
             endRequest()
             startRequest()
-            cartService.addProductToCart(mainProductId, 5)
+            cartService.updateCart(mainProductId, 5)
             endRequest()
 
             // Act & Assert
@@ -187,10 +187,10 @@ class CartServiceTests : AbstractSessionTest() {
             // Arrange
             startSession()
             startRequest()
-            cartService.addProductToCart(bundledProductId, 5)
+            cartService.updateCart(bundledProductId, 5)
             endRequest()
             startRequest()
-            cartService.addProductToCart(mainProductId, 3)
+            cartService.updateCart(mainProductId, 3)
             endRequest()
 
             // Act & Assert
@@ -224,13 +224,13 @@ class CartServiceTests : AbstractSessionTest() {
             // Arrange
             startSession()
             startRequest()
-            cartService.addProductToCart(bundledProductId, 10)
+            cartService.updateCart(bundledProductId, 10)
             endRequest()
             startRequest()
-            cartService.addProductToCart(mainProductId, 7)
+            cartService.updateCart(mainProductId, 7)
             endRequest()
             startRequest()
-            cartService.addProductToCart(mainProductId, 8)
+            cartService.updateCart(mainProductId, 8)
             endRequest()
 
             // Act & Assert
@@ -264,13 +264,13 @@ class CartServiceTests : AbstractSessionTest() {
             // Arrange
             startSession()
             startRequest()
-            cartService.addProductToCart(bundledProductId, 10)
+            cartService.updateCart(bundledProductId, 10)
             endRequest()
             startRequest()
-            cartService.addProductToCart(mainProductId, 7)
+            cartService.updateCart(mainProductId, 7)
             endRequest()
             startRequest()
-            cartService.addProductToCart(mainProductId, 15)
+            cartService.updateCart(mainProductId, 15)
             endRequest()
 
             // Act & Assert
@@ -315,7 +315,7 @@ class CartServiceTests : AbstractSessionTest() {
             // Arrange
             startSession()
             startRequest()
-            cartService.addProductToCart(mainProductId, 1)
+            cartService.updateCart(mainProductId, 1)
             endRequest()
 
             // Act & Assert
@@ -340,10 +340,10 @@ class CartServiceTests : AbstractSessionTest() {
             // Arrange
             startSession()
             startRequest()
-            cartService.addProductToCart(discountedProductId, 1)
+            cartService.updateCart(discountedProductId, 1)
             endRequest()
             startRequest()
-            cartService.addProductToCart(mainProductId, 1)
+            cartService.updateCart(mainProductId, 1)
             endRequest()
 
             // Act & Assert
@@ -377,10 +377,10 @@ class CartServiceTests : AbstractSessionTest() {
             // Arrange
             startSession()
             startRequest()
-            cartService.addProductToCart(discountedProductId, 3)
+            cartService.updateCart(discountedProductId, 3)
             endRequest()
             startRequest()
-            cartService.addProductToCart(mainProductId, 5)
+            cartService.updateCart(mainProductId, 5)
             endRequest()
 
             // Act & Assert
@@ -414,10 +414,10 @@ class CartServiceTests : AbstractSessionTest() {
             // Arrange
             startSession()
             startRequest()
-            cartService.addProductToCart(discountedProductId, 5)
+            cartService.updateCart(discountedProductId, 5)
             endRequest()
             startRequest()
-            cartService.addProductToCart(mainProductId, 3)
+            cartService.updateCart(mainProductId, 3)
             endRequest()
 
             // Act & Assert
@@ -451,10 +451,10 @@ class CartServiceTests : AbstractSessionTest() {
             // Arrange
             startSession()
             startRequest()
-            cartService.addProductToCart(mainProductId, 5)
+            cartService.updateCart(mainProductId, 5)
             endRequest()
             startRequest()
-            cartService.addProductToCart(discountedProductId, 3)
+            cartService.updateCart(discountedProductId, 3)
             endRequest()
 
             // Act & Assert
@@ -488,10 +488,10 @@ class CartServiceTests : AbstractSessionTest() {
             // Arrange
             startSession()
             startRequest()
-            cartService.addProductToCart(mainProductId, 3)
+            cartService.updateCart(mainProductId, 3)
             endRequest()
             startRequest()
-            cartService.addProductToCart(discountedProductId, 5)
+            cartService.updateCart(discountedProductId, 5)
             endRequest()
 
             // Act & Assert
@@ -517,6 +517,48 @@ class CartServiceTests : AbstractSessionTest() {
                     normalPricePerItem = BigDecimal(5).setScale(2)
                 )
             )
+            endSession()
+        }
+    }
+
+    @Nested
+    inner class RemoveProductTests {
+        @BeforeEach
+        fun mockRepositories() {
+            whenever(productRepositoryMock.findById(mainProductId))
+                .thenReturn(Optional.of(mainProduct))
+        }
+        @Test
+        fun `When a product in cart and it is removed`() {
+            // Arrange
+            startSession()
+            startRequest()
+            cartService.updateCart(mainProductId, 1)
+            endRequest()
+
+            // Act & Assert
+            val cart = cartService.getCart()
+            assertThat(cart.size).isEqualTo(1)
+            assertThat(cart[mainProductId]).isEqualTo(
+                CartItem(
+                    productId = mainProductId,
+                    discountedQuantity = 0,
+                    normalQuantity = 1,
+                    bundledQuantity = 0,
+                    totalPrice = BigDecimal(100).setScale(2),
+                    normalPricePerItem = BigDecimal(100).setScale(2)
+                )
+            )
+
+            // Arrange
+            startRequest()
+            cartService.updateCart(mainProductId, 0)
+            endRequest()
+
+            // Act & Assert
+            val updatedCart = cartService.getCart()
+            assertThat(updatedCart.size).isEqualTo(0)
+            assertNull(updatedCart[mainProductId])
             endSession()
         }
     }

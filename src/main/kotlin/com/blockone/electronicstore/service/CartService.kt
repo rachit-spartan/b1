@@ -20,11 +20,11 @@ class CartService(
     private val cart = HashMap<UUID, CartItem>()
     private val log: Logger = LoggerFactory.getLogger(CartService::class.java)
 
-    fun addProductToCart(
+    fun updateCart(
         productId: UUID,
         quantity: Int
     ): HashMap<UUID, CartItem> {
-        log.info("Adding product $productId with quantity = $quantity")
+        log.info("Updating cart for product $productId with quantity = $quantity")
 
         val product = productRepository.findById(productId).takeIf { it.isPresent }?.get()
             ?: throw SupportException("Trying to add a non existent product")
@@ -46,6 +46,16 @@ class CartService(
 
         adjustCartProducts(product, quantity)
 
+        // Remove all the 0 quantity products
+        // Using iterator rather than forEach to avoid ConcurrentModificationException
+        val iterator = cart.entries.iterator()
+        while (iterator.hasNext()) {
+            val entry = iterator.next()
+            val value = entry.value
+            if (value.discountedQuantity == 0 && value.bundledQuantity == 0 && value.normalQuantity == 0) {
+                iterator.remove()
+            }
+        }
         return cart
     }
 
@@ -109,9 +119,12 @@ class CartService(
                 val discountedProductNormalQuantity = max(quantity - discountedQuantity, 0)
 
                 productCartItem.let {
+
+                    val normalProductsPrice = productCartItem.normalPricePerItem.multiply(BigDecimal(discountedProductNormalQuantity))
+                    val discountedProductsPrice = productCartItem.normalPricePerItem.multiply(BigDecimal(discountedQuantity))
+                        .multiply(BigDecimal.ONE.minus(discountDeal.discount.divide(BigDecimal(100))))
                     it.copy(
-                        totalPrice = productCartItem.normalPricePerItem.multiply(BigDecimal(discountedQuantity)).multiply(BigDecimal.ONE.minus(discountDeal.discount.divide(BigDecimal(100)))) +
-                            productCartItem.normalPricePerItem.multiply(BigDecimal(discountedProductNormalQuantity)),
+                        totalPrice = normalProductsPrice + discountedProductsPrice,
                         discountedQuantity = discountedQuantity,
                         normalQuantity = discountedProductNormalQuantity
                     ).also { cart[it.productId] = it }

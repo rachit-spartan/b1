@@ -21,7 +21,7 @@ class CartController(
     ): ResponseEntity<HashMap<UUID, CartItem>> {
         log.info("Add/Update product in cart $addProductToCartRequest")
 
-        val cart = cartService.addProductToCart(
+        val cart = cartService.updateCart(
             productId = addProductToCartRequest.productId,
             quantity = addProductToCartRequest.quantity ?: 1
         )

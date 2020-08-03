@@ -3,12 +3,10 @@ package com.blockone.electronicstore.service.sst
 import com.blockone.electronicstore.db.model.BundleDeal
 import com.blockone.electronicstore.db.model.DiscountDeal
 import com.blockone.electronicstore.db.model.Product
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.joda.money.CurrencyUnit.USD
 import org.joda.money.Money
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.http.MediaType
@@ -20,9 +18,6 @@ import java.util.*
 
 class AddAndUpdateCartSST : SingleServiceTestBase() {
 
-    private val objectMapper: ObjectMapper = jacksonObjectMapper().apply {
-        configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-    }
     private val mainProductId = UUID.randomUUID()
     private val bundledProductId = UUID.randomUUID()
     private val mainProductId2 = UUID.randomUUID()
@@ -167,6 +162,34 @@ class AddAndUpdateCartSST : SingleServiceTestBase() {
         assertThat(discountedProduct.normalQuantity).isEqualTo(0)
         assertThat(discountedProduct.discountedQuantity).isEqualTo(1)
         assertThat(discountedProduct.totalPrice).isEqualTo(BigDecimal(9).setScale(1))
+        // endregion
+
+        // region Remove the first main product
+        val finalCartRequest =
+            """
+            {
+                "productId": "$mainProductId",
+                "quantity": 0
+            }
+            """.trimIndent()
+        val finalCartResponse = mockMvc.perform(
+            MockMvcRequestBuilders.post("/api/v1/update_cart")
+                .content(finalCartRequest)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
+        )
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andReturn()
+
+        val finalCart = objectMapper.readTree(finalCartResponse.response.contentAsString)
+        val bundledProductFullPrice = objectMapper.readValue(finalCart[bundledProductId.toString()].toString(), Item::class.java)
+
+        assertThat(bundledProductFullPrice.bundledQuantity).isEqualTo(0)
+        assertThat(bundledProductFullPrice.normalQuantity).isEqualTo(1)
+        assertThat(bundledProductFullPrice.discountedQuantity).isEqualTo(0)
+        assertThat(bundledProductFullPrice.totalPrice).isEqualTo(BigDecimal.TEN.setScale(1))
+
+        assertNull(finalCart[mainProductId.toString()])
         // endregion
     }
 }
