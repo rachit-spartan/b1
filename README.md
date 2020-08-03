@@ -18,7 +18,7 @@ To start the application, ```./gradlew bootRun```
 #### Run tests
 To run all the tests, ```./gradlew clean test```
 
-###Assumptions/Working
+### Assumptions/Working
 1. When you add a product and specify the quantity, the specified quantity in the api will be final quantity and will override
 previous quantity.
 2. When you add a main product, a bundled product for that main product is added automatically. If main product is removed, the
